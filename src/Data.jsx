@@ -12,7 +12,7 @@ import { Paper, Box } from '@mui/material';
 function Data() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-
+ const [isLoading, setIsLoading] = useState(false);
     const handleSearch = async () => {
         try {
             if (query !== '') {
@@ -37,11 +37,13 @@ function Data() {
 
                     scrapingBeeResults.push(scrapedText);
                     console.log(scrapingBeeResults);
+                      setIsLoading(true)
 
                 }
 
 
                 setResults(scrapingBeeResults);
+                 setIsLoading(false);
                 console.log(results)
             }
 
@@ -67,8 +69,9 @@ function Data() {
             <Box sx={{ p: "0.5rem", width: "100%" }} component={Paper}>
                 <Input value={query} onChange={handleChange}
                     sx={{ m: '1rem' }} />
-                <Button onClick={handleSearch} variant="text" sx={{ color: "black" }}>Search</Button>
-
+                {isLoading ? "" :
+                <Button onClick={handleSearch} variant="text" sx={{ color: "black" }}>Search</Button>}
+  {isLoading ? <h4>fetching data...</h4> : ""}
                 {results.map((data, index) => <p key={index}>{data.text}</p>)}
 
 
